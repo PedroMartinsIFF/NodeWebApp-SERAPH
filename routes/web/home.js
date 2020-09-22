@@ -1,5 +1,6 @@
 var express = require("express");
 var passport = require("passport");
+var ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 
 var User = require("../../models/user");
 
@@ -18,6 +19,11 @@ router.get("/home", function(req,res){
 router.get("/about", function(req,res){
     console.log("About Page");
     res.render("home/about");
+
+});
+
+router.get("/form", ensureAuthenticated, function(req, res){
+    res.render("home/form");
 
 });
 
