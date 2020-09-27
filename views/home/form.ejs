@@ -3,8 +3,8 @@
         <h1 class="display-4">Portifolio</h1>
         <p class="lead">Abaixo se encontra um portifolio com os ambientes disponíveis para serem gerados, selecione o ambiente desejado e você recebera o link para o master node. </p>
     </div>
-    
-    <div class="card-deck mb-3 text-center text-primary">
+    <form class="form-generate" method="POST" action="/form">
+      <div class="card-deck mb-3 text-center text-primary">
         <div class="card mb-4 shadow-sm">
             <div class="card-header">
               <h4 class="my-0 font-weight-normal">Dask</h4>
@@ -17,7 +17,7 @@
                 <li>Jupyter Notebook</li>
                 <li>Elastic Searc, Beat and Kibana</li>
               </ul>
-              <button type="button" class="btn btn-lg btn-block btn-outline-primary">Generate</button>
+              <input class="btn btn-lg btn-block btn-outline-primary" type="submit" value="Generate2" />
             </div>
           </div>
           <div class="card mb-4 shadow-sm">
@@ -36,6 +36,9 @@
             </div>
           </div>
     </div>
+    
+    </form>
+    
   
       
 <%- include ("../_partial/_footer.ejs"); %>
