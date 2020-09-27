@@ -1,5 +1,6 @@
 var express = require("express");
 var passport = require("passport");
+var ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 
 var User = require("../../models/user");
 
@@ -19,6 +20,29 @@ router.get("/about", function(req,res){
     console.log("About Page");
     res.render("home/about");
 
+});
+
+router.get("/form", ensureAuthenticated, function(req, res){
+    res.render("home/form");
+
+});
+
+router.post("/form", ensureAuthenticated, function(req,res){
+    res.redirect("/about");
+    const { exec } = require("child_process");
+
+    exec("ping 8.8.8.8", (error, stdout, stderr) => {
+    if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
+});
+    console.log("Generating Dask Environment");
 });
 
 router.get("/login", function(req,res){
@@ -71,5 +95,7 @@ router.post("/signup", function (req, res, next) {
     failureRedirect: "/signup",
     failureFlash: true
  }));
+
+ router.get
 
 module.exports = router;
