@@ -31,7 +31,16 @@ router.post("/form", ensureAuthenticated, function(req,res){
     res.redirect("/about");
     const { exec } = require("child_process");
 
-    exec("ping 8.8.8.8", (error, stdout, stderr) => {
+    exec("kops create cluster \
+    --state=${KOPS_STATE_STORE} \
+    --node-count=2 \
+    --master-size=t2.medium \
+    --node-size=t2.medium \
+    --zones=us-east-1a \
+    --name=${KOPS_CLUSTER_NAME} \
+    --ssh-public-key=/home/ec2-user/.ssh/id_rsa.pub \
+    --dns private \
+    --master-count 1", (error, stdout, stderr) => {
     if (error) {
         console.log(`error: ${error.message}`);
         return;
@@ -42,6 +51,19 @@ router.post("/form", ensureAuthenticated, function(req,res){
     }
     console.log(`stdout: ${stdout}`);
 });
+
+    exec("kops update cluster --yes", (error, stdout, stderr) => {
+    if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+    }
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+    }
+    console.log(`stdout: ${stdout}`);
+    });
+    
     console.log("Generating Dask Environment");
 });
 
