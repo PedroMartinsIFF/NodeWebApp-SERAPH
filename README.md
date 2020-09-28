@@ -43,7 +43,7 @@ Run this command to update
 ```sh
 source ~/.bashrc
 ```
-# Create SSH key pair
+### Create SSH key pair
 ```sh
 ssh-keygen
 ```
