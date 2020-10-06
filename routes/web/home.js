@@ -30,6 +30,8 @@ function kops_create(callback){
     console.log(`stdout: ${stdout}`);
 });
 
+callback();
+
 }
 
 function kops_update(){
