@@ -6,7 +6,7 @@ var User = require("../../models/user");
 
 var router = express.Router();
 
-function kops_create(){
+function kops_create(callback){
     const { exec } = require("child_process");
 
     exec("kops create cluster \
@@ -73,9 +73,7 @@ router.get("/form", ensureAuthenticated, function(req, res){
 
 router.post("/form", ensureAuthenticated, function(req,res){
     res.redirect("/about");
-    kops_create();
-    kops_update();
-
+    kops_create(kops_update);
 
 });
 
