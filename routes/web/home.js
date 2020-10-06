@@ -6,29 +6,7 @@ var User = require("../../models/user");
 
 var router = express.Router();
 
-router.get("/", function(req,res){
-    console.log("Start Page");
-    res.render("home/index");
-});
-
-router.get("/home", function(req,res){
-    console.log("Home Page");
-    res.render("home/home");
-});
-
-router.get("/about", function(req,res){
-    console.log("About Page");
-    res.render("home/about");
-
-});
-
-router.get("/form", ensureAuthenticated, function(req, res){
-    res.render("home/form");
-
-});
-
-router.post("/form", ensureAuthenticated, function(req,res){
-    res.redirect("/about");
+function kops_create(){
     const { exec } = require("child_process");
 
     exec("kops create cluster \
@@ -52,19 +30,53 @@ router.post("/form", ensureAuthenticated, function(req,res){
     console.log(`stdout: ${stdout}`);
 });
 
+}
+
+function kops_update(){
     exec("kops update cluster --yes", (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    console.log(`stdout: ${stdout}`);
-    });
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+        });
+        
+        console.log("Generating Dask Environment");
     
-    console.log("Generating Dask Environment");
+}
+
+router.get("/", function(req,res){
+    console.log("Start Page");
+    res.render("home/index");
+});
+
+router.get("/home", function(req,res){
+    console.log("Home Page");
+    res.render("home/home");
+});
+
+router.get("/about", function(req,res){
+    console.log("About Page");
+    res.render("home/about");
+
+});
+
+router.get("/form", ensureAuthenticated, function(req, res){
+    res.render("home/form");
+
+
+});
+
+router.post("/form", ensureAuthenticated, function(req,res){
+    res.redirect("/about");
+    kops_create();
+    kops_update();
+
+
 });
 
 router.get("/login", function(req,res){
