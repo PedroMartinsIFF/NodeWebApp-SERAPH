@@ -35,6 +35,7 @@ callback();
 }
 
 function kops_update(){
+    const { exec } = require("child_process");
     exec("kops update cluster --yes", (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
