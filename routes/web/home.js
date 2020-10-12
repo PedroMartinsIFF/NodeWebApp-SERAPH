@@ -27,10 +27,15 @@ function kops_create(callback){
         console.log(`stderr: ${stderr}`);
         return;
     }
-    console.log(`stdout: ${stdout}`);
+    if (stdout)
+    {
+        console.log("Deu Bom");
+        callback();
+    }
+    
 });
 
-callback();
+
 
 }
 
@@ -60,7 +65,7 @@ function kops_validate(){
         console.log("Aguardando Validação");
         
 
-        return setTimeout(kops_validate,180000)
+        return setTimeout(kops_validate,180000);
     }
     if (stderr) {
         console.log("Nem sei oq q é isso");
@@ -71,6 +76,7 @@ function kops_validate(){
         console.log("Deu Bom");
     }
 });
+}
 
 router.get("/", function(req,res){
     console.log("Start Page");
