@@ -20,8 +20,8 @@ function kops_create(callback){
     --dns private \
     --master-count 1", (error, stdout, stderr) => {
     if (error) {
-        console.log(`error: ${error.message}`);
-        return;
+        
+        return setTimeout(kops_create,5000);
     }
     if (stderr) {
         console.log(`stderr: ${stderr}`);
@@ -46,11 +46,31 @@ function kops_update(){
             return;
         }
         console.log(`stdout: ${stdout}`);
+        kops_validate();
         });
         
         console.log("Generating Dask Environment");
     
 }
+
+function kops_validate(){
+    const { exec } = require("child_process");
+    exec("kops validate cluster", (error, stdout, stderr) => {
+    if (error) {
+        console.log("Aguardando Validação");
+        
+
+        return setTimeout(kops_validate,180000)
+    }
+    if (stderr) {
+        console.log("Nem sei oq q é isso");
+        return;
+    }
+    if (stdout)
+    {
+        console.log("Deu Bom");
+    }
+});
 
 router.get("/", function(req,res){
     console.log("Start Page");
