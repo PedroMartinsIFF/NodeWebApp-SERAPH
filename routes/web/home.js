@@ -20,22 +20,17 @@ function kops_create(callback){
     --dns private \
     --master-count 1", (error, stdout, stderr) => {
     if (error) {
-        
-        return setTimeout(kops_create,5000);
+        console.log(`error: ${error.message}`);
+        return;
     }
     if (stderr) {
         console.log(`stderr: ${stderr}`);
         return;
     }
-    if (stdout)
-    {
-        console.log("Deu Bom");
-        callback();
-    }
-    
+    console.log(`stdout: ${stdout}`);
 });
 
-
+callback();
 
 }
 
@@ -51,10 +46,12 @@ function kops_update(){
             return;
         }
         console.log(`stdout: ${stdout}`);
-        kops_validate();
         });
-        
-        console.log("Generating Dask Environment");
+        if (stdout)
+        {
+            kops_validate();
+            console.log("Deu Bom");
+        }
     
 }
 
@@ -77,7 +74,6 @@ function kops_validate(){
     }
 });
 }
-
 router.get("/", function(req,res){
     console.log("Start Page");
     res.render("home/index");
