@@ -6,74 +6,55 @@ var User = require("../../models/user");
 
 var router = express.Router();
 
-function kops_create(callback){
+function kops_create() {
     const { exec } = require("child_process");
-
-    exec("kops create cluster \
-    --state=${KOPS_STATE_STORE} \
-    --node-count=2 \
-    --master-size=t2.medium \
-    --node-size=t2.medium \
-    --zones=us-east-1a \
-    --name=${KOPS_CLUSTER_NAME} \
-    --ssh-public-key=/home/ec2-user/.ssh/id_rsa.pub \
-    --dns private \
-    --master-count 1", (error, stdout, stderr) => {
-    if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-    }
-    if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-    }
-    console.log(`stdout: ${stdout}`);
-});
-
-callback();
-
-}
-
-function kops_update(){
-    const { exec } = require("child_process");
-    exec("kops update cluster --yes", (error, stdout, stderr) => {
+        exec("kops create cluster \
+        --state=${KOPS_STATE_STORE} \
+        --node-count=2 \
+        --master-size=t2.medium \
+        --node-size=t2.medium \
+        --zones=us-east-1a \
+        --name=${KOPS_CLUSTER_NAME} \
+        --ssh-public-key=/home/ec2-user/.ssh/id_rsa.pub \
+        --dns private \
+        --master-count 1 \
+        --yes", (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
             return;
+            
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+                return;
+        }
+        if (stdout) {
+            console.log(`stdout: ${stdout}`);
+        }
+                
+    });
+}
+
+function verify() {
+    const { exec } = require("child_process");
+        exec("kops validate cluster", (error, stdout, stderr) => {
+        if (error) {
+            console.log("Aguardando Validação");
+            return setTimeout(verify,180000);
+            
         }
         if (stderr) {
             console.log(`stderr: ${stderr}`);
             return;
         }
-        console.log(`stdout: ${stdout}`);
-        });
         if (stdout)
         {
-            kops_validate();
-            console.log("Deu Bom");
+                console.log(`stdout: ${stdout}`);
         }
-    
+    });
+
 }
 
-function kops_validate(){
-    const { exec } = require("child_process");
-    exec("kops validate cluster", (error, stdout, stderr) => {
-    if (error) {
-        console.log("Aguardando Validação");
-        
-
-        return setTimeout(kops_validate,180000);
-    }
-    if (stderr) {
-        console.log("Nem sei oq q é isso");
-        return;
-    }
-    if (stdout)
-    {
-        console.log("Deu Bom");
-    }
-});
-}
 router.get("/", function(req,res){
     console.log("Start Page");
     res.render("home/index");
@@ -98,7 +79,8 @@ router.get("/form", ensureAuthenticated, function(req, res){
 
 router.post("/form", ensureAuthenticated, function(req,res){
     res.redirect("/about");
-    kops_create(kops_update);
+    kops_create();
+    setTimeout(verify,40000);
 
 });
 
