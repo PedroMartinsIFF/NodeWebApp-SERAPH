@@ -30,6 +30,7 @@ function kops_create() {
         }
         if (stdout) {
             console.log(`stdout: ${stdout}`);
+            return;
         }
                 
     });
@@ -40,6 +41,7 @@ function verify() {
         exec("kops validate cluster", (error, stdout, stderr) => {
         if (error) {
             console.log("Aguardando Validação");
+            req.flash("info", "Your Cluster is being created!");
             return setTimeout(verify,180000);
             
         }
@@ -48,12 +50,14 @@ function verify() {
             return;
         }
         if (stdout)
-        {
+        {       req.flash("info", "Your Cluster is Ready!");
                 console.log(`stdout: ${stdout}`);
         }
     });
 
 }
+
+
 
 router.get("/", function(req,res){
     console.log("Start Page");
@@ -73,14 +77,17 @@ router.get("/about", function(req,res){
 
 router.get("/form", ensureAuthenticated, function(req, res){
     res.render("home/form");
+    
 
 
 });
 
 router.post("/form", ensureAuthenticated, function(req,res){
-    res.redirect("/about");
+    
     kops_create();
     setTimeout(verify,40000);
+    res.redirect("/about");
+    
 
 });
 
@@ -96,7 +103,7 @@ router.get("/logout", function(req, res){
  });
 
 router.post("/login", passport.authenticate("login", {
-    successRedirect: "/",
+    successRedirect: "/form",
     failureRedirect: "/login",
     failureFlash: true
  }));
