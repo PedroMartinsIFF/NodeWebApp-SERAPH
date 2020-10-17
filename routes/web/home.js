@@ -30,7 +30,7 @@ function kops_create() {
         }
         if (stdout) {
             console.log(`stdout: ${stdout}`);
-            return;
+            return 0;
         }
                 
     });
@@ -41,17 +41,16 @@ function verify() {
         exec("kops validate cluster", (error, stdout, stderr) => {
         if (error) {
             console.log("Aguardando Validação");
-            req.flash("info", "Your Cluster is being created!");
-            return setTimeout(verify,180000);
-            
+            return setTimeout(verify,180000);    
         }
         if (stderr) {
             console.log(`stderr: ${stderr}`);
             return;
         }
         if (stdout)
-        {       req.flash("info", "Your Cluster is Ready!");
-                console.log(`stdout: ${stdout}`);
+        {  
+            console.log(`stdout: ${stdout}`);
+            return 1;
         }
     });
 
@@ -78,14 +77,19 @@ router.get("/about", function(req,res){
 router.get("/form", ensureAuthenticated, function(req, res){
     res.render("home/form");
     
-
-
 });
 
 router.post("/form", ensureAuthenticated, function(req,res){
-    
-    kops_create();
-    setTimeout(verify,40000);
+    var alerta = kops_create();
+    if (alerta = 0)
+    {
+        req.flash("info", "Your Cluster is being created!");
+    }
+    alerta = setTimeout(verify,40000);
+    if (alerta = 1)
+    {
+        req.flash("info", "Your Cluster is Ready!");
+    }
     res.redirect("/about");
     
 
