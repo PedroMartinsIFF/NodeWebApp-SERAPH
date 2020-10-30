@@ -8,6 +8,8 @@ router.use(function(req,res,next){
     res.locals.info = req.flash("info");
     next();
 });
+
 router.use("/", require("./home"));
+router.use("/form", require("./form"));
 
 module.exports = router;

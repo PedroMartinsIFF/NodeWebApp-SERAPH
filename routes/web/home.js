@@ -4,57 +4,9 @@ var ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 
 var User = require("../../models/user");
 
+var alerta;
+
 var router = express.Router();
-
-function kops_create() {
-    const { exec } = require("child_process");
-        exec("kops create cluster \
-        --state=${KOPS_STATE_STORE} \
-        --node-count=2 \
-        --master-size=t2.medium \
-        --node-size=t2.medium \
-        --zones=us-east-1a \
-        --name=${KOPS_CLUSTER_NAME} \
-        --ssh-public-key=/home/ec2-user/.ssh/id_rsa.pub \
-        --dns private \
-        --master-count 1 \
-        --yes", (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-            
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-                return;
-        }
-        if (stdout) {
-            console.log(`stdout: ${stdout}`);
-            return 0;
-        }
-                
-    });
-}
-
-function verify() {
-    const { exec } = require("child_process");
-        exec("kops validate cluster", (error, stdout, stderr) => {
-        if (error) {
-            console.log("Aguardando Validação");
-            return setTimeout(verify,180000);    
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        if (stdout)
-        {  
-            console.log(`stdout: ${stdout}`);
-            return 1;
-        }
-    });
-
-}
 
 
 
@@ -71,29 +23,12 @@ router.get("/home", function(req,res){
 router.get("/about", function(req,res){
     console.log("About Page");
     res.render("home/about");
-
-});
-
-router.get("/form", ensureAuthenticated, function(req, res){
-    res.render("home/form");
     
 });
 
-router.post("/form", ensureAuthenticated, function(req,res){
-    var alerta = kops_create();
-    if (alerta = 0)
-    {
-        req.flash("info", "Your Cluster is being created!");
-    }
-    alerta = setTimeout(verify,40000);
-    if (alerta = 1)
-    {
-        req.flash("info", "Your Cluster is Ready!");
-    }
-    res.redirect("/about");
-    
 
-});
+
+
 
 router.get("/login", function(req,res){
     console.log("Login Page");
