@@ -10,7 +10,8 @@
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script>src="https://code.jquery.com/jquery-3.5.1.js"</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <style>
         .bd-placeholder-img {
           font-size: 1.125rem;
@@ -170,6 +171,13 @@
     <link rel="stylesheet" href="../style/navbar-top.css">
     <link rel="stylesheet" href="../style/style.css">
     
+    <script>
+      $(document).ready(function(){
+        $("p").click(function(){
+          $(this).hide();
+        });
+      });
+      </script>
 </head>
 
 <body class="text-center d-flex flex-column h-100">
@@ -216,6 +224,7 @@
 <div class="container">
 
 
+
 <% if(error && error.length > 0) { %>
     <div class="alert alert-danger " role="alert">
         <%= error %>
@@ -227,3 +236,8 @@
         <%= info %>
     </div>
 <% } %>
+
+
+
+
+

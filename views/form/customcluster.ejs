@@ -1,8 +1,17 @@
 <%- include ("../_partial/_header.ejs"); %>
 
-<%= functions.kops_create() %>
-<%= functions.verify() %>
 
-<h1>Node.js  AAAAA</h1>
+
+<h1>Node.js  Custom</h1>
+
+
+<form method="post" action="/form/custom">
+  <input type="test" name="field1">
+  <input type="test" name="field2">
+  <input type="submit">
+</form>
+
+
 
 <%- include ("../_partial/_footer.ejs"); %>
+
