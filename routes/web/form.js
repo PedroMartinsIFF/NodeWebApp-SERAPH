@@ -20,6 +20,7 @@ router.get("/", function(req, res){
 router.get("/custom", function(req,res){
     console.log("custom")
     res.render("form/customcluster");
+    functions.teste();
     
 });
 
@@ -54,8 +55,15 @@ router.get("/custom/send", function(req,res){
 
 router.get("/dask", function(req,res){
     console.log("dask")
-    functions.wait();
-    res.render("form/form", { functions:functions, success:'' });
+    res.render("form/daskcluster", { functions:functions, success:'' });
+    
+});
+
+router.post("/dask", function(req,res){
+    console.log("dask")
+    res.render("form/customsend", { functions:functions, success: "Your cluster is being created!" })
+    functions.kops_create(req.body);
+    functions.verify_2()
     
 });
 

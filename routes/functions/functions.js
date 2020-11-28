@@ -1,3 +1,6 @@
+const spawn = require('child_process').spawn;
+const process = spawn ('python3', ['../script1.py']);
+
 function kops_create(value) {
     const { exec } = require("child_process");
         exec("kops create cluster \
@@ -9,7 +12,7 @@ function kops_create(value) {
         --name=${KOPS_CLUSTER_NAME} \
         --ssh-public-key=/home/ec2-user/.ssh/id_rsa.pub \
         --dns private \
-        --master-count "+value.field2 +" \
+        --master-count="+value.field2+" \
         --yes", (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
@@ -37,6 +40,7 @@ function verify_2() {
         } 
         if (stdout) {
             console.log(`stdout: ${stdout}`);
+            dask_install();
             return 1;
         }
     });
@@ -53,7 +57,7 @@ function verify() {
         } 
         if (stdout) {
             console.log(`stdout: ${stdout}`);
-            dask_install();
+            
             return 1;
         }
     });
@@ -72,6 +76,15 @@ function dask_install(){
         return 1;
     }
 });
+
+}
+
+function teste(){
+    console.log("HEREEE")
+
+    process.stdout.on('data', data => {
+        console.log(data.toString());
+    })
 
 }
 
@@ -96,10 +109,11 @@ function kops_delete() {
 }
 
 module.exports = {
-    teste: teste,
     kops_create: kops_create,
     verify: verify,
-    delete: kops_delete
+    verify_2: verify_2,
+    delete: kops_delete,
+    teste: teste
     
 }
 

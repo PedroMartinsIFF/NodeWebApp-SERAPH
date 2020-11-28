@@ -11,7 +11,6 @@ var router = express.Router();
 
 
 
-
 router.get("/", function(req,res){
     console.log("Start Page");
     res.render("home/index");
@@ -20,6 +19,8 @@ router.get("/", function(req,res){
 router.get("/home", function(req,res){
     console.log("Home Page");
     res.render("home/home");
+
+
 });
 
 router.get("/about", function(req,res){

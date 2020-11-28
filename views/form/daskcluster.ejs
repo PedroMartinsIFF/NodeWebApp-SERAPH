@@ -1,7 +1,21 @@
 <%- include ("../_partial/_header.ejs"); %>
 
 <h1>Node.js  Dask</h1>
+<br>
 
-
+<form method="post" action="/form/dask">
+    <div class="row">
+        <div class="col">
+            <h5> Número de masters </h5>
+            <input type="test"  class="form-control" name="field2">
+        </div>
+        <div class="col">
+            <h5> Número de workers </h5>
+            <input type="test"  class="form-control" name="field1">
+        </div>    
+    </div>
+    <br>
+    <input type="submit" class="btn btn-lg btn-block btn-primary ">
+</form>
 
 <%- include ("../_partial/_footer.ejs"); %>
