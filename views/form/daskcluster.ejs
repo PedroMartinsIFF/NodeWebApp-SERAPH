@@ -1,21 +1,40 @@
 <%- include ("../_partial/_header.ejs"); %>
 
-<h1>Node.js  Dask</h1>
+<h1>Dask Cluster</h1>
+<br>
+
 <br>
 
 <form method="post" action="/form/dask">
     <div class="row">
         <div class="col">
-            <h5> Número de masters </h5>
-            <input type="test"  class="form-control" name="field2">
+            <h5> Nome do cluster </h5>
+            <input type="test"  class="form-control" name="field5">
         </div>
-        <div class="col">
-            <h5> Número de workers </h5>
-            <input type="test"  class="form-control" name="field1">
-        </div>    
     </div>
-    <br>
-    <input type="submit" class="btn btn-lg btn-block btn-primary ">
+    <div class="row">
+      <div class="col">
+          <h5> Número de masters </h5>
+          <input type="test"  class="form-control" name="field2">
+      </div>
+      <div class="col">
+          <h5> Número de workers </h5>
+          <input type="test"  class="form-control" name="field1">
+      </div>    
+  </div>
+  <br>
+  <div class="row">
+    <div class="col">
+        <h5> Endereço do Bucket S3 </h5>
+        <input type="test"  class="form-control" name="field3">
+    </div>
+    <div class="col">
+        <h5> Tipo de Instância </h5>
+        <input type="test"  class="form-control" name="field4">
+    </div>    
+</div>
+<br>
+  <input type="submit" class="btn btn-lg btn-block btn-primary ">
 </form>
 
 <%- include ("../_partial/_footer.ejs"); %>
