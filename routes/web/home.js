@@ -5,6 +5,7 @@ var ensureAuthenticated = require("../../auth/auth").ensureAuthenticated;
 var User = require("../../models/user");
 
 var alerta;
+var functions = require('../functions/functions');
 
 var router = express.Router();
 
@@ -18,6 +19,8 @@ router.get("/", function(req,res){
 router.get("/home", function(req,res){
     console.log("Home Page");
     res.render("home/home");
+
+
 });
 
 router.get("/about", function(req,res){
@@ -25,9 +28,6 @@ router.get("/about", function(req,res){
     res.render("home/about");
     
 });
-
-
-
 
 
 router.get("/login", function(req,res){

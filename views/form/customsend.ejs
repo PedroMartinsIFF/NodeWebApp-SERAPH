@@ -1,0 +1,12 @@
+<%- include ("../_partial/_header.ejs"); %>
+<% if(success !=''){%>
+    <div class="alert alert-info" role="alert">
+      <%= success %>
+    </div>
+<% } %>
+
+<a href="/form/delete" class="btn btn-lg btn-block btn-outline-primary" id="btn1" type="button">Delete Cluster</a>
+
+<a href="/form/verify" class="btn btn-lg btn-block btn-outline-primary" id="btn1" type="button">Cluster Status</a>
+
+<%- include ("../_partial/_footer.ejs"); %>
